@@ -9,10 +9,8 @@ const MainStack = createNativeStackNavigator()
 const App = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator>
-        <MainStack.Screen name='Splash' component={Splash} options={{
-          headerShown: false
-        }} />
+      <MainStack.Navigator screenOptions={{ headerShown: false }}>
+        <MainStack.Screen name='Splash' component={Splash} />
         <MainStack.Screen name='Home' component={Home} />
       </MainStack.Navigator>
     </NavigationContainer>
