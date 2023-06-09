@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useRef } from 'react'
 
-import { TodoState } from "../../utils/todo"
+import { TodoState } from "../../utils/types/todo"
 
 import Button from "../../components/Button"
 import TodoList from '../../components/TodoList';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
-import { TodoState } from '../utils/todo';
+import { TodoState } from '../utils/types/todo';
 
 interface InputProps {
     id: string,
