@@ -1,7 +1,8 @@
 import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 
+import { env } from "../../../env"
 import { TodoState } from "../../utils/types/todo"
 
 import Button from "../../components/Button"
@@ -29,7 +30,6 @@ const Home = () => {
             title: item,
         }];
         setTodos(prevTodos => [...prevTodos, ...newTodo]);
-
     };
 
     return (
