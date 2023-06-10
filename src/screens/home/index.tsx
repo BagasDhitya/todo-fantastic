@@ -1,14 +1,16 @@
 import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { env } from "../../../env"
+import { api } from "../../utils/services/auth"
 import { TodoState } from "../../utils/types/todo"
+import { palette } from '../../utils/colors/colors';
+
 
 import Button from "../../components/Button"
 import TodoList from '../../components/TodoList';
 import Input from '../../components/Input';
-import { palette } from '../../utils/colors/colors';
 
 const { width } = Dimensions.get('window')
 
@@ -32,9 +34,19 @@ const Home = () => {
         setTodos(prevTodos => [...prevTodos, ...newTodo]);
     };
 
+    // const authRequest = async (id: string, scope: string, state: string) => {
+    //     try {
+    //         const response = await api.authRequest(id, scope, state)
+    //         console.log("data ", response.data)
+    //     } catch (error) {
+    //         console.log("error ", error)
+    //     }
+    // }
+
     return (
         <SafeAreaView style={styles.container}>
             <Input id='addToDo' value={item} onChangeText={handleChange} />
+            {/* <Button id='submitToDo' title='Request Auth' onPress={() => authRequest(env.TODO_CLIENT_ID, "data:read,data:delete", "secretstring")} /> */}
             {
                 todos ?
                     < TodoList todos={todos} onDeleteTodo={handleDeleteTodo} /> :
