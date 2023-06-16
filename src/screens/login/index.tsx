@@ -2,6 +2,8 @@ import { StyleSheet, SafeAreaView, View, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
+import { setItemWithExpiry } from "../../utils/services/storage";
+
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
@@ -13,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
 
   const onLogin = () => {
+    setItemWithExpiry("email", email, 3600);
     navigation.navigate("Home");
   };
 

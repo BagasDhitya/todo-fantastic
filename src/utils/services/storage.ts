@@ -28,4 +28,4 @@ const getItemWithExpiry = async (key: any) => {
   return item.value;
 };
 
-export default { setItemWithExpiry, getItemWithExpiry };
+export { setItemWithExpiry, getItemWithExpiry };

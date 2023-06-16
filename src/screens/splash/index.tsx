@@ -1,15 +1,30 @@
 import { StyleSheet, Image, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useCookies } from "react-cookie";
+
+import { getItemWithExpiry } from "../../utils/services/storage";
+
 import React, { useEffect } from "react";
 
 const Splash = () => {
   const navigation: any = useNavigation();
 
+  const checkToken = async () => {
+    try {
+      const value = await getItemWithExpiry("email");
+      if (value !== null) {
+        setTimeout(() => {
+          navigation.navigate("Home");
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          navigation.navigate("Login");
+        }, 3000);
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate("Login");
-    }, 3000);
+    checkToken();
   }, []);
 
   return (
