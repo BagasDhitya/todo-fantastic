@@ -15,6 +15,10 @@ const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const onRegister = () => {
+  
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
