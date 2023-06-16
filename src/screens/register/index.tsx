@@ -1,5 +1,8 @@
-import { StyleSheet, SafeAreaView, View, Dimensions } from "react-native";
+import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+
+import { palette } from "../../utils/colors/colors";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -7,6 +10,7 @@ import Button from "../../components/Button";
 const { width } = Dimensions.get("screen");
 
 const Register = () => {
+  const navigation: any = useNavigation();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -20,6 +24,7 @@ const Register = () => {
           value={username}
           onChangeText={setUsername}
         />
+        <View style={styles.gap} />
         <Input
           id="email"
           placeholder="Email"
@@ -36,6 +41,17 @@ const Register = () => {
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
           <Button id="register" title="Register" />
+          <Text
+            style={{
+              marginTop: 15,
+              alignSelf: "center",
+              color: palette.sage700,
+              textDecorationLine: "underline",
+            }}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Already have an account? Please log in here!
+          </Text>
         </View>
       </View>
     </SafeAreaView>
