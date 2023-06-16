@@ -1,5 +1,6 @@
 import { StyleSheet, SafeAreaView, View, Dimensions } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -7,8 +8,13 @@ import Button from "../../components/Button";
 const { width } = Dimensions.get("screen");
 
 const Login = () => {
+  const navigation: any = useNavigation();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const onLogin = () => {
+    navigation.navigate("Home");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,7 +34,7 @@ const Login = () => {
         />
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
-          <Button id="login" title="Login" />
+          <Button id="login" title="Login" onPress={() => onLogin()} />
         </View>
       </View>
     </SafeAreaView>
