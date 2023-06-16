@@ -6,13 +6,20 @@ import Button from "../../components/Button";
 
 const { width } = Dimensions.get("screen");
 
-const Login = () => {
+const Register = () => {
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
+        <Input
+          id="username"
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
         <Input
           id="email"
           placeholder="Email"
@@ -28,14 +35,14 @@ const Login = () => {
         />
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
-          <Button id="login" title="Login" />
+          <Button id="register" title="Register" />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default Register;
 
 const styles = StyleSheet.create({
   container: {
