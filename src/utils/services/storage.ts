@@ -28,4 +28,9 @@ const getItemWithExpiry = async (key: any) => {
   return item.value;
 };
 
-export { setItemWithExpiry, getItemWithExpiry };
+const removeItem = async (key: any) => {
+  const item = await AsyncStorage.removeItem(key);
+  return item;
+};
+
+export { setItemWithExpiry, getItemWithExpiry, removeItem };
