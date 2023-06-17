@@ -15,8 +15,13 @@ const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onRegister = () => {
-  
+  const onRegister = async (email: string, password: string) => {
+    // try {
+    //   const response = await app.auth().createUserWithEmailAndPassword(email, password)
+    //   console.log(response.user)
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 
   return (
@@ -44,7 +49,7 @@ const Register = () => {
         />
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
-          <Button id="register" title="Register" />
+          <Button id="register" title="Register" onPress={() => onRegister(email, password)} />
           <Text
             style={{
               marginTop: 15,
