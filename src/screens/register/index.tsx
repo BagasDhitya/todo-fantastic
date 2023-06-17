@@ -2,6 +2,7 @@ import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 
+import { auth } from "../../../firebase"
 import { palette } from "../../utils/colors/colors";
 
 import Input from "../../components/Input";
@@ -16,12 +17,12 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
 
   const onRegister = async (email: string, password: string) => {
-    // try {
-    //   const response = await app.auth().createUserWithEmailAndPassword(email, password)
-    //   console.log(response.user)
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    try {
+      const response = await auth.createUserWithEmailAndPassword(email, password)
+      console.log(response.user)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
