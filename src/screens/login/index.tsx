@@ -2,6 +2,7 @@ import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
+import { auth } from "../../../firebase"
 import { palette } from "../../utils/colors/colors";
 import { setItemWithExpiry } from "../../utils/services/storage";
 
@@ -15,9 +16,21 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onLogin = () => {
-    setItemWithExpiry("email", email, 3600);
-    navigation.navigate("Home");
+  const onLogin = async (email: string, password: string) => {
+    try {
+      const response = await auth.signInWithEmailAndPassword(email, password)
+      const token = response.user
+      return token?.getIdToken()
+        .then((token) => {
+          setItemWithExpiry("token", token, 3600)
+          navigation.navigate('Home')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -38,7 +51,7 @@ const Login = () => {
         />
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
-          <Button id="login" title="Login" onPress={() => onLogin()} />
+          <Button id="login" title="Login" onPress={() => onLogin(email, password)} />
           <Text
             style={{
               marginTop: 15,

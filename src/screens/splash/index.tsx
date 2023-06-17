@@ -10,8 +10,8 @@ const Splash = () => {
 
   const checkToken = async () => {
     try {
-      const value = await getItemWithExpiry("email");
-      if (value !== null) {
+      const token = await getItemWithExpiry("token");
+      if (token !== null) {
         setTimeout(() => {
           navigation.navigate("Home");
         }, 3000);
@@ -20,7 +20,7 @@ const Splash = () => {
           navigation.navigate("Login");
         }, 3000);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
