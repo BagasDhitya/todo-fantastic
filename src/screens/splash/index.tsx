@@ -1,9 +1,8 @@
 import { StyleSheet, Image, View } from "react-native";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { getItemWithExpiry } from "../../utils/services/storage";
-
-import React, { useEffect } from "react";
 
 const Splash = () => {
   const navigation: any = useNavigation();

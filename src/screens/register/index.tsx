@@ -1,6 +1,6 @@
 import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import { auth } from "../../../firebase"
 import { palette } from "../../utils/colors/colors";
