@@ -32,10 +32,16 @@ const Login = () => {
           navigation.navigate('Home')
         })
         .catch((error) => {
-          console.log(error)
+          SweetAlert({
+            title: "Something went wrong!",
+            message: `${error.message}`
+          })
         })
     } catch (error) {
-      console.log(error)
+      SweetAlert({
+        title: "Something went wrong!",
+        message: `${error}`
+      })
     }
   };
 

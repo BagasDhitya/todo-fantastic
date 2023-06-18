@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { auth } from "../../../firebase"
 import { palette } from "../../utils/colors/colors";
+import { SweetAlert } from "../../utils/services/alert";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -18,10 +19,28 @@ const Register = () => {
 
   const onRegister = async (email: string, password: string) => {
     try {
-      const response = await auth.createUserWithEmailAndPassword(email, password)
-      console.log(response.user)
+      await auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          SweetAlert({
+            title: "Success",
+            message: "Successfully register",
+            confirmText: "OK"
+          })
+          navigation.navigate("Login")
+        })
+        .catch((error) => {
+          SweetAlert({
+            title: "Something went wrong!",
+            message: `${error.message}`,
+            confirmText: "OK"
+          })
+        })
     } catch (error) {
-      console.log(error)
+      SweetAlert({
+        title: "Something went wrong!",
+        message: `${error}`,
+        confirmText: "OK"
+      })
     }
   }
 
