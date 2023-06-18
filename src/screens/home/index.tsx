@@ -1,15 +1,16 @@
 import { StyleSheet, View, Text, Dimensions } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
 
+import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
 import TodoList from "../../components/TodoList";
 import Input from "../../components/Input";
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("screen");
 
 const Home = () => {
   const [todos, setTodos] = useState<TodoState[]>([]);
@@ -35,8 +36,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Input id="addToDo" value={item} onChangeText={handleChange} />
-      {/* <Button id='submitToDo' title='Request Auth' onPress={() => authRequest(env.TODO_CLIENT_ID, "data:read,data:delete", "secretstring")} /> */}
+      <Navbar />
       {todos ? (
         <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
       ) : (
@@ -53,6 +53,9 @@ const Home = () => {
           </Text>
         </View>
       )}
+      <View style={styles.inputContainer}>
+        <Input id="addToDo" value={item} onChangeText={handleChange} />
+      </View>
       <View style={styles.buttonContainer}>
         <Button id="submitToDo" title="Add Todo" onPress={handleAddTodo} />
       </View>
@@ -74,4 +77,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     alignSelf: "center",
   },
+  inputContainer: {
+    top: width / 0.7,
+  }
 });

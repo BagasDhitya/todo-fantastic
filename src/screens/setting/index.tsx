@@ -1,14 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import Navbar from '../../components/Navbar'
 
 const Setting = () => {
     return (
-        <View>
-            <Text>Setting</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Navbar />
+        </SafeAreaView>
     )
 }
 
 export default Setting
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#fff",
+    },
+})
