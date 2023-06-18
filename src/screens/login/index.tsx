@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { auth } from "../../../firebase"
+import { SweetAlert } from "../../utils/services/alert";
 import { palette } from "../../utils/colors/colors";
 import { setItemWithExpiry } from "../../utils/services/storage";
 
@@ -23,6 +24,11 @@ const Login = () => {
       return token?.getIdToken()
         .then((token) => {
           setItemWithExpiry("token", token, 3600)
+          SweetAlert({
+            title: "Success",
+            message: "Welcome to the app!",
+            confirmText: "OK"
+          })
           navigation.navigate('Home')
         })
         .catch((error) => {
