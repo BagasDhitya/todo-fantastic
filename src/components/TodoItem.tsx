@@ -1,11 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-interface TodoItemProps {
-    id: number;
-    title: string;
-    onDelete: (id: number) => void;
-}
+import { TodoItemProps } from "../utils/types/todo"
 
 const TodoItem: React.FC<TodoItemProps> = ({ id, title, onDelete }) => {
     return (

@@ -1,16 +1,12 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+
+import { ButtonProps } from '../utils/types/button';
 import { palette } from "../utils/colors/colors"
 
-interface ButtonProps {
-    id: string;
-    title: string;
-    onPress?: () => void;
-}
-
-const Button: React.FC<ButtonProps> = ({ title, onPress }) => {
+const Button: React.FC<ButtonProps> = ({ id, title, onPress }) => {
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity id={id} style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>{title}</Text>
         </TouchableOpacity>
     );

@@ -1,13 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
-import { TodoState } from '../utils/types/todo';
 
-interface InputProps {
-    id: string,
-    placeholder?: string;
-    value?: TodoState[] | any;
-    onChangeText?: (text: string) => void;
-}
+import { InputProps } from '../utils/types/input';
 
 const Input: React.FC<InputProps> = ({ id, placeholder, value, onChangeText }) => {
     return (

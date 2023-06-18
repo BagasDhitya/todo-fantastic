@@ -1,16 +1,9 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
+
+import { TodoListProps } from "../utils/types/todo"
+
 import TodoItem from './TodoItem';
-
-interface Todo {
-    id: number;
-    title: string;
-}
-
-interface TodoListProps {
-    todos: Todo[];
-    onDeleteTodo: (id: number) => void;
-}
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onDeleteTodo }) => {
     return (

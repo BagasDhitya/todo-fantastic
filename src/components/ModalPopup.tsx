@@ -1,15 +1,11 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 
-interface ModalProps {
-    visible: boolean;
-    onClose: () => void;
-    children: ReactNode;
-}
+import { ModalProps } from '../utils/types/modal';
 
-const ModalPopup: React.FC<ModalProps> = ({ visible, onClose, children }) => {
+const ModalPopup: React.FC<ModalProps> = ({ id, visible, onClose, children }) => {
     return (
-        <Modal visible={visible} onRequestClose={onClose} transparent>
+        <Modal id={id} visible={visible} onRequestClose={onClose} transparent>
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                     {children}
