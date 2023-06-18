@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, Image, Text, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { palette } from '../utils/colors/colors';
@@ -8,8 +8,9 @@ const { height } = Dimensions.get("screen");
 
 const Navbar = () => {
 
-    const navigation: any = useNavigation()
+    const navigation: any = useNavigation();
     const [isOpen, setIsOpen] = useState(false);
+    const uri = "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
     const pages = [
         {
             title: "Home",
@@ -23,22 +24,27 @@ const Navbar = () => {
             title: "List",
             component: "ListStack"
         }
-    ]
+    ];
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
+    const navigateToPage = (component: string) => {
+        setIsOpen(false);
+        navigation.navigate(component);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity onPress={toggleMenu} style={styles.button}>
-                <Text style={styles.buttonText}>{isOpen ? '✕' : '☰'}</Text>
+            <TouchableOpacity onPress={toggleMenu} style={styles.avatarContainer}>
+                <Image source={{ uri: uri }} style={styles.avatar} />
             </TouchableOpacity>
             {isOpen && (
                 <View style={styles.menu}>
                     {pages.map((page: any, index: number) => (
-                        <TouchableOpacity key={index} style={styles.menuItem}>
-                            <Text style={styles.menuText} onPress={() => navigation.navigate(page.component)}>{page.title}</Text>
+                        <TouchableOpacity key={index} style={styles.menuItem} onPress={() => navigateToPage(page.component)}>
+                            <Text style={styles.menuText}>{page.title}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -51,20 +57,22 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: height * 0.05,
+        justifyContent: 'flex-end',
+        height: height * 0.06,
         backgroundColor: palette.sage400,
         borderRadius: 5
     },
-    button: {
-        paddingHorizontal: 10,
+    avatarContainer: {
+        marginRight: 10,
     },
-    buttonText: {
-        fontSize: 24,
-        color: 'white'
+    avatar: {
+        width: 30,
+        height: 30,
+        borderRadius: 15
     },
     menu: {
         position: 'absolute',
-        top: 40,
+        top: height * 0.05 + 10,
         right: 10,
         backgroundColor: palette.sage400,
         padding: 10,
