@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 import { getItemWithExpiry } from "../../utils/services/storage";
+import { SweetAlert } from "../../utils/services/alert";
 
 const Splash = () => {
   const navigation: any = useNavigation();
@@ -19,7 +20,13 @@ const Splash = () => {
           navigation.navigate("Login");
         }, 3000);
       }
-    } catch (error) { }
+    } catch (error) {
+      SweetAlert({
+        title: "Something went wrong",
+        message: "Please reload your app",
+        confirmText: "OK",
+      });
+    }
   };
 
   useEffect(() => {
