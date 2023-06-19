@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { StyleSheet, FlatList, View, Text, Dimensions } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,12 +9,14 @@ import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
 import TodoList from "../../components/TodoList";
 import Input from "../../components/Input";
+import ModalPopup from "../../components/ModalPopup";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 
 const Home = () => {
   const [todos, setTodos] = useState<TodoState[]>([]);
   const [item, setItem] = useState<string>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleChange = (item: string) => {
     setItem(item);
@@ -32,13 +34,26 @@ const Home = () => {
       },
     ];
     setTodos((prevTodos) => [...prevTodos, ...newTodo]);
+    setIsOpen(false);
+  };
+
+  const createTodo = () => {
+    setIsOpen(true);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Navbar />
       {todos ? (
-        <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
+        <View
+          style={{
+            marginTop: height * 0.05,
+            marginBottom: height * 0.15,
+            justifyContent: "center",
+          }}
+        >
+          <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
+        </View>
       ) : (
         <View
           style={{
@@ -53,11 +68,25 @@ const Home = () => {
           </Text>
         </View>
       )}
-      <View style={styles.inputContainer}>
-        <Input id="addToDo" value={item} onChangeText={handleChange} />
-      </View>
+      <ModalPopup
+        id="addToDoPopup"
+        onClose={() => setIsOpen(false)}
+        visible={isOpen}
+      >
+        <View style={styles.inputContainer}>
+          <Input
+            id="addToDo"
+            value={item}
+            onChangeText={handleChange}
+            placeholder="Type your todo here ..."
+          />
+        </View>
+        <View style={styles.buttonAdd}>
+          <Button id="submitToDo" title="Add Todo" onPress={handleAddTodo} />
+        </View>
+      </ModalPopup>
       <View style={styles.buttonContainer}>
-        <Button id="submitToDo" title="Add Todo" onPress={handleAddTodo} />
+        <Button id="submitToDo" title="Create Todo" onPress={createTodo} />
       </View>
     </SafeAreaView>
   );
@@ -77,7 +106,12 @@ const styles = StyleSheet.create({
     bottom: 20,
     alignSelf: "center",
   },
+  buttonAdd: {
+    width: width / 1.2,
+    marginVertical: 10,
+    alignSelf: "center",
+  },
   inputContainer: {
-    top: width / 0.7,
-  }
+    width: width * 0.85,
+  },
 });
