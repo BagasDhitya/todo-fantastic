@@ -2,13 +2,14 @@ import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-import { auth } from "../../../firebase"
+import { auth } from "../../../firebase";
 import { SweetAlert } from "../../utils/services/alert";
 import { palette } from "../../utils/colors/colors";
 import { setItemWithExpiry } from "../../utils/services/storage";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import { useLanguageStore } from "../../utils/zustand/languageState";
 
 const { width } = Dimensions.get("screen");
 
@@ -16,32 +17,48 @@ const Login = () => {
   const navigation: any = useNavigation();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { language } = useLanguageStore();
 
   const onLogin = async (email: string, password: string) => {
     try {
-      const response = await auth.signInWithEmailAndPassword(email, password)
-      const token = response.user
-      return token?.getIdToken()
+      const response = await auth.signInWithEmailAndPassword(email, password);
+      const token = response.user;
+      return token
+        ?.getIdToken()
         .then((token) => {
-          setItemWithExpiry("token", token, 3600)
+          setItemWithExpiry("token", token, 3600);
           SweetAlert({
-            title: "Success",
-            message: "Welcome to the app!",
-            confirmText: "OK"
-          })
-          navigation.navigate('Home')
+            title: `${language === "Indonesia" ? "Berhasil" : "Success"}`,
+            message: `${
+              language === "Indonesia"
+                ? "Selamat datang!"
+                : "Welcome to the App!"
+            }`,
+            confirmText: "OK",
+          });
+          navigation.navigate("Home");
         })
         .catch((error) => {
           SweetAlert({
-            title: "Something went wrong!",
-            message: `${error.message}`
-          })
-        })
+            title: `${
+              language === "Indonesia"
+                ? "Terjadi kesalahan"
+                : "Something went wrong"
+            }`,
+            message: `${error.message}`,
+            confirmText: "OK",
+          });
+        });
     } catch (error) {
       SweetAlert({
-        title: "Something went wrong!",
-        message: `${error}`
-      })
+        title: `${
+          language === "Indonesia"
+            ? "Terjadi kesalahan"
+            : "Something went wrong"
+        }`,
+        message: `${error}`,
+        confirmText: "OK",
+      });
     }
   };
 
@@ -63,7 +80,11 @@ const Login = () => {
         />
         <View style={styles.gap} />
         <View style={styles.buttonContainer}>
-          <Button id="login" title="Login" onPress={() => onLogin(email, password)} />
+          <Button
+            id="login"
+            title="Login"
+            onPress={() => onLogin(email, password)}
+          />
           <Text
             style={{
               marginTop: 15,
@@ -73,7 +94,9 @@ const Login = () => {
             }}
             onPress={() => navigation.navigate("Register")}
           >
-            Don't have an account yet? Please register here!
+            {language === "Indonesia"
+              ? "Belum punya akun disini? Daftar sekarang!"
+              : "Don't have an account yet? Please register here!"}
           </Text>
         </View>
       </View>

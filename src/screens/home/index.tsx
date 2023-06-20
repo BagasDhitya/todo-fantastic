@@ -2,6 +2,7 @@ import { StyleSheet, FlatList, View, Text, Dimensions } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useLanguageStore } from "../../utils/zustand/languageState";
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
 
@@ -17,6 +18,7 @@ const Home = () => {
   const [todos, setTodos] = useState<TodoState[]>([]);
   const [item, setItem] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { language } = useLanguageStore();
 
   const handleChange = (item: string) => {
     setItem(item);
@@ -64,7 +66,9 @@ const Home = () => {
           }}
         >
           <Text style={{ margin: 10, color: palette.sage700, fontSize: 18 }}>
-            You don't have any task today!
+            {language === "Indonesia"
+              ? "Kamu tidak memiliki task hari ini!"
+              : "You don't have any task, today!"}
           </Text>
         </View>
       )}
@@ -78,15 +82,27 @@ const Home = () => {
             id="addToDo"
             value={item}
             onChangeText={handleChange}
-            placeholder="Type your todo here ..."
+            placeholder={
+              language === "Indonesia"
+                ? "Tulis To Do disini ..."
+                : "Type your todo here ..."
+            }
           />
         </View>
         <View style={styles.buttonAdd}>
-          <Button id="submitToDo" title="Add Todo" onPress={handleAddTodo} />
+          <Button
+            id="submitToDo"
+            title={language === "Indonesia" ? "Tambahkan To Do" : "Add Todo"}
+            onPress={handleAddTodo}
+          />
         </View>
       </ModalPopup>
       <View style={styles.buttonContainer}>
-        <Button id="submitToDo" title="Create Todo" onPress={createTodo} />
+        <Button
+          id="createToDo"
+          title={language === "Indonesia" ? "Buat To Do" : "Create Todo"}
+          onPress={createTodo}
+        />
       </View>
     </SafeAreaView>
   );
