@@ -1,7 +1,8 @@
 import { StyleSheet, FlatList, View, Text, Dimensions } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { registerForPushNotifications } from "../../utils/services/pushNotification";
 import { useLanguageStore } from "../../utils/zustand/languageState";
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
@@ -42,6 +43,10 @@ const Home = () => {
   const createTodo = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    registerForPushNotifications();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
