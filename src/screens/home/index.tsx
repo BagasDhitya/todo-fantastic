@@ -1,8 +1,7 @@
-import { StyleSheet, FlatList, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { registerForPushNotifications } from "../../utils/services/pushNotification";
 import { useLanguageStore } from "../../utils/zustand/languageState";
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
@@ -10,6 +9,8 @@ import { palette } from "../../utils/colors/colors";
 import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
 import TodoList from "../../components/TodoList";
+import * as Notifications from "expo-notifications";
+
 import Input from "../../components/Input";
 import ModalPopup from "../../components/ModalPopup";
 
@@ -44,9 +45,34 @@ const Home = () => {
     setIsOpen(true);
   };
 
+  const getNotification = async () => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `${
+          language === "Indonesia"
+            ? "Todo Baru Ditambahkan!"
+            : "New Todo Added!"
+        }`,
+        body: `${
+          language === "Indonesia" ? "Todo telah ditambahkan" : "Todo was added"
+        }`,
+      },
+      trigger: {
+        seconds: 1,
+      },
+    });
+  };
+
   useEffect(() => {
-    registerForPushNotifications();
-  }, []);
+    getNotification();
+  }, [todos]);
 
   return (
     <SafeAreaView style={styles.container}>
