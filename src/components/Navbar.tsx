@@ -10,15 +10,23 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { useLanguageStore } from "../utils/zustand/languageStore";
 import { palette } from "../utils/colors/colors";
+import { getGreeting } from "../utils/services/time"
+import { useLanguageStore } from "../utils/zustand/languageStore";
+import { useAuthStore } from "../utils/zustand/authStore";
 
 const { height, width } = Dimensions.get("screen");
 
 const Navbar = () => {
   const navigation: any = useNavigation();
+
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguageStore();
+  const { email } = useAuthStore()
+
+  const menuScale = useRef(new Animated.Value(0)).current;
+  const greeting = getGreeting(language)
+
   const uri =
     "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg";
   const pages = [
@@ -45,8 +53,6 @@ const Navbar = () => {
     navigation.navigate(component);
   };
 
-  const menuScale = useRef(new Animated.Value(0)).current;
-
   const toggleMenuAnimation = () => {
     console.log(isOpen)
     if (isOpen) {
@@ -70,6 +76,9 @@ const Navbar = () => {
   return (
     <View style={[styles.navbarContainer, { zIndex: 2 }]}>
       <View style={styles.container}>
+        <View style={styles.welcome}>
+          <Text style={{ color: "white" }}>{greeting}, {email?.split('@')[0]}</Text>
+        </View>
         <TouchableOpacity
           onPress={() => {
             toggleMenu();
@@ -140,8 +149,8 @@ const styles = StyleSheet.create({
     marginTop: height * 0.05,
   },
   avatar: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     borderRadius: 15,
   },
   menu: {
@@ -167,6 +176,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
   },
+  welcome: {
+    marginHorizontal: width * 0.04,
+    marginTop: height * 0.05,
+  }
 });
 
 export default Navbar;
