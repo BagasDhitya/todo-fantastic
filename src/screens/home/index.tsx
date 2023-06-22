@@ -22,7 +22,6 @@ const Home = () => {
   const [item, setItem] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { language } = useLanguageStore();
-  const { email } = useAuthStore()
 
   const handleChange = (item: string) => {
     setItem(item);

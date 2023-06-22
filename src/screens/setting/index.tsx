@@ -2,8 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { useLanguageStore } from "../../utils/zustand/languageStore";
 
+import { useLanguageStore } from "../../utils/zustand/languageStore";
+import { useAuthStore } from "../../utils/zustand/authStore";
 import { palette } from "../../utils/colors/colors";
 import { removeItem } from "../../utils/services/storage";
 
@@ -12,9 +13,11 @@ import Navbar from "../../components/Navbar";
 const Setting = () => {
   const navigation: any = useNavigation();
   const { language, setLanguage } = useLanguageStore();
+  const { logout } = useAuthStore()
 
   const handleLogout = () => {
     removeItem("token");
+    logout()
     navigation.navigate("Login");
   };
 
