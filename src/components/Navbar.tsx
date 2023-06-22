@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -6,14 +6,14 @@ import {
   Text,
   StyleSheet,
   Dimensions,
+  Animated,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
-import { useLanguageStore } from "../utils/zustand/languageState";
+import { useLanguageStore } from "../utils/zustand/languageStore";
 import { palette } from "../utils/colors/colors";
 
-const { height } = Dimensions.get("screen");
+const { height, width } = Dimensions.get("screen");
 
 const Navbar = () => {
   const navigation: any = useNavigation();
@@ -45,14 +45,56 @@ const Navbar = () => {
     navigation.navigate(component);
   };
 
+  const menuScale = useRef(new Animated.Value(0)).current;
+
+  const toggleMenuAnimation = () => {
+    console.log(isOpen)
+    if (isOpen) {
+      Animated.timing(menuScale, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(() => {
+        setIsOpen(false);
+      });
+    } else {
+      setIsOpen(true);
+      Animated.timing(menuScale, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
   return (
-    <SafeAreaView style={[styles.navbarContainer, { zIndex: 2 }]}>
+    <View style={[styles.navbarContainer, { zIndex: 2 }]}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={toggleMenu} style={styles.avatarContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            toggleMenu();
+            toggleMenuAnimation();
+          }}
+          style={styles.avatarContainer}
+        >
           <Image source={{ uri: uri }} style={styles.avatar} />
         </TouchableOpacity>
         {isOpen && (
-          <View style={styles.menu}>
+          <Animated.View
+            style={[
+              styles.menu,
+              {
+                transform: [
+                  {
+                    scale: menuScale.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 1],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
             {pages.map((page: any, index: number) => (
               <TouchableOpacity
                 key={index}
@@ -62,10 +104,10 @@ const Navbar = () => {
                 <Text style={styles.menuText}>{page.title}</Text>
               </TouchableOpacity>
             ))}
-          </View>
+          </Animated.View>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -81,11 +123,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    height: height * 0.06,
+    height: height * 0.15,
     backgroundColor: palette.sage400,
   },
+  menuIconContainer: {
+    marginLeft: 10,
+    marginRight: 5,
+  },
+  menuIcon: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
+  },
   avatarContainer: {
-    marginRight: 10,
+    marginRight: width * 0.07,
+    marginTop: height * 0.05,
   },
   avatar: {
     width: 30,
@@ -94,8 +146,8 @@ const styles = StyleSheet.create({
   },
   menu: {
     position: "absolute",
-    top: height * 0.05 + 10,
-    right: 10,
+    top: height * 0.1 + 10,
+    right: width * 0.1,
     backgroundColor: palette.sage400,
     padding: 10,
     borderRadius: 4,
@@ -109,7 +161,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   menuItem: {
-    paddingVertical: 8,
+    paddingVertical: height * 0.01,
   },
   menuText: {
     fontSize: 16,
