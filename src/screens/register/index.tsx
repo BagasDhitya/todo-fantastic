@@ -8,7 +8,7 @@ import { SweetAlert } from "../../utils/services/alert";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useLanguageStore } from "../../utils/zustand/languageState";
+import { useLanguageStore } from "../../utils/zustand/languageStore";
 
 const { width } = Dimensions.get("screen");
 
@@ -26,33 +26,32 @@ const Register = () => {
         .then(() => {
           SweetAlert({
             title: `${language === "Indonesia" ? "Berhasil" : "Success"}`,
-            message: `${
-              language === "Indonesia"
-                ? "Berhasil Register"
-                : "Successfuly Register"
-            }`,
+            message: `${language === "Indonesia"
+              ? "Berhasil Register"
+              : "Successfuly Register"
+              }`,
             confirmText: "OK",
           });
-          navigation.navigate("Login");
+          navigation.navigate("Login", {
+            username: username
+          });
         })
         .catch((error) => {
           SweetAlert({
-            title: `${
-              language === "Indonesia"
-                ? "Terjadi kesalahan"
-                : "Something went wrong"
-            }`,
+            title: `${language === "Indonesia"
+              ? "Terjadi kesalahan"
+              : "Something went wrong"
+              }`,
             message: `${error.message}`,
             confirmText: "OK",
           });
         });
     } catch (error) {
       SweetAlert({
-        title: `${
-          language === "Indonesia"
-            ? "Terjadi kesalahan"
-            : "Something went wrong"
-        }`,
+        title: `${language === "Indonesia"
+          ? "Terjadi kesalahan"
+          : "Something went wrong"
+          }`,
         message: `${error}`,
         confirmText: "OK",
       });

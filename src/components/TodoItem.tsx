@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-import { useLanguageStore } from "../utils/zustand/languageState";
+import { useLanguageStore } from "../utils/zustand/languageStore";
 import { TodoItemProps } from "../utils/types/todo";
 
 const TodoItem: React.FC<TodoItemProps> = ({ id, title, onDelete }) => {

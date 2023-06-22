@@ -1,15 +1,18 @@
 import { StyleSheet, SafeAreaView, View, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { auth } from "../../../firebase";
 import { SweetAlert } from "../../utils/services/alert";
 import { palette } from "../../utils/colors/colors";
 import { setItemWithExpiry } from "../../utils/services/storage";
 
+import { useLanguageStore } from "../../utils/zustand/languageStore";
+import { usePersistedAuthStore } from "../../utils/zustand/authStore";
+
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useLanguageStore } from "../../utils/zustand/languageState";
+
 
 const { width } = Dimensions.get("screen");
 
@@ -18,8 +21,12 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { language } = useLanguageStore();
+  const route: any = useRoute()
+
+  console.log(route?.params?.username)
 
   const onLogin = async (email: string, password: string) => {
+    console.log(route?.params?.username)
     try {
       const response = await auth.signInWithEmailAndPassword(email, password);
       const token = response.user;
@@ -29,33 +36,30 @@ const Login = () => {
           setItemWithExpiry("token", token, 3600);
           SweetAlert({
             title: `${language === "Indonesia" ? "Berhasil" : "Success"}`,
-            message: `${
-              language === "Indonesia"
-                ? "Selamat datang!"
-                : "Welcome to the App!"
-            }`,
+            message: `${language === "Indonesia"
+              ? "Selamat datang!"
+              : "Welcome to the App!"
+              }`,
             confirmText: "OK",
           });
           navigation.navigate("Home");
         })
         .catch((error) => {
           SweetAlert({
-            title: `${
-              language === "Indonesia"
-                ? "Terjadi kesalahan"
-                : "Something went wrong"
-            }`,
+            title: `${language === "Indonesia"
+              ? "Terjadi kesalahan"
+              : "Something went wrong"
+              }`,
             message: `${error.message}`,
             confirmText: "OK",
           });
         });
     } catch (error) {
       SweetAlert({
-        title: `${
-          language === "Indonesia"
-            ? "Terjadi kesalahan"
-            : "Something went wrong"
-        }`,
+        title: `${language === "Indonesia"
+          ? "Terjadi kesalahan"
+          : "Something went wrong"
+          }`,
         message: `${error}`,
         confirmText: "OK",
       });

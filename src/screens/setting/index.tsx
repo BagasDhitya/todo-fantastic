@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { useLanguageStore } from "../../utils/zustand/languageState";
+import { useLanguageStore } from "../../utils/zustand/languageStore";
 
 import { palette } from "../../utils/colors/colors";
 import { removeItem } from "../../utils/services/storage";

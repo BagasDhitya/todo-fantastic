@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { getNotifications } from "../../utils/services/pushNotification";
-import { useLanguageStore } from "../../utils/zustand/languageState";
+import { useLanguageStore } from "../../utils/zustand/languageStore";
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
 
@@ -47,13 +47,11 @@ const Home = () => {
 
   useEffect(() => {
     getNotifications(
-      `${
-        language === "Indonesia" ? "Todo baru ditambahkan" : "Added new todo"
+      `${language === "Indonesia" ? "Todo baru ditambahkan" : "Added new todo"
       }`,
-      `${
-        language === "Indonesia"
-          ? "Todo baru telah ditambahkan ke daftar"
-          : "New todo was added to list"
+      `${language === "Indonesia"
+        ? "Todo baru telah ditambahkan ke daftar"
+        : "New todo was added to list"
       }`,
       0.5
     );
