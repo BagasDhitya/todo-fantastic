@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { palette } from '../../utils/colors/colors';
 
@@ -28,6 +29,16 @@ const ListTask = () => {
         { id: 2, title: 'Task 2' },
         { id: 3, title: 'Task 3' },
     ];
+
+    const getTask = async () => {
+        const data = await AsyncStorage.getItem("todos")
+        console.log(data)
+    }
+
+    useEffect(() => {
+        getTask()
+    }, [])
+
 
     return (
         <SafeAreaView style={styles.container}>

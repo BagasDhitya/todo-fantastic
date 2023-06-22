@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getNotifications } from "../../utils/services/pushNotification";
 import { useLanguageStore } from "../../utils/zustand/languageStore";
@@ -27,6 +28,7 @@ const Home = () => {
 
   const handleDeleteTodo = (id: number) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    AsyncStorage.removeItem("todos")
   };
 
   const handleAddTodo = () => {
@@ -37,8 +39,8 @@ const Home = () => {
       },
     ];
     setTodos((prevTodos) => [...prevTodos, ...newTodo]);
-    const id = newTodo.map((item) => { item?.id })
-    const title = newTodo.map((item) => { item?.title })
+    const value = JSON.stringify(todos)
+    AsyncStorage.setItem("todos", value)
     setIsOpen(false);
   };
 
