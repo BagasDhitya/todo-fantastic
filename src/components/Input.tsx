@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
-import { InputProps } from '../utils/types/input';
+import { InputProps } from '../utils/types/component';
 
 const Input: React.FC<InputProps> = ({ id, placeholder, value, onChangeText }) => {
     return (

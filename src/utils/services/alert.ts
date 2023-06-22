@@ -1,14 +1,6 @@
 import { Alert } from 'react-native';
 
-export interface SweetAlertProps {
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  isCancel?: boolean
-}
+import { SweetAlertProps } from '../types/component';
 
 export const SweetAlert = ({
   title,

@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, StyleSheet, View, Pressable } from "react-native";
 
-import { ModalProps } from "../utils/types/modal";
+import { ModalProps } from "../utils/types/component";
 
 const ModalPopup: React.FC<ModalProps> = ({
   id,

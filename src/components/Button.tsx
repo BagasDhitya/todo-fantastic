@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import { ButtonProps } from '../utils/types/button';
+import { ButtonProps } from '../utils/types/component';
 import { palette } from "../utils/colors/colors"
 
 const Button: React.FC<ButtonProps> = ({ id, title, onPress }) => {
