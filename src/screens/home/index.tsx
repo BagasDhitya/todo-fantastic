@@ -13,6 +13,7 @@ import TodoList from "../../components/TodoList";
 
 import Input from "../../components/Input";
 import ModalPopup from "../../components/ModalPopup";
+import { useAuthStore } from "../../utils/zustand/authStore";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,6 +22,7 @@ const Home = () => {
   const [item, setItem] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { language } = useLanguageStore();
+  const { email } = useAuthStore()
 
   const handleChange = (item: string) => {
     setItem(item);

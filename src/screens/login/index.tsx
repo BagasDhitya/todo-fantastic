@@ -8,31 +8,30 @@ import { palette } from "../../utils/colors/colors";
 import { setItemWithExpiry } from "../../utils/services/storage";
 
 import { useLanguageStore } from "../../utils/zustand/languageStore";
-import { usePersistedAuthStore } from "../../utils/zustand/authStore";
+import { useAuthStore } from "../../utils/zustand/authStore";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
-
 const { width } = Dimensions.get("screen");
 
 const Login = () => {
+
   const navigation: any = useNavigation();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { language } = useLanguageStore();
-  const route: any = useRoute()
-
-  console.log(route?.params?.username)
+  const { login } = useAuthStore()
 
   const onLogin = async (email: string, password: string) => {
-    console.log(route?.params?.username)
     try {
       const response = await auth.signInWithEmailAndPassword(email, password);
       const token = response.user;
       return token
         ?.getIdToken()
         .then((token) => {
+          login(email, password)
           setItemWithExpiry("token", token, 3600);
           SweetAlert({
             title: `${language === "Indonesia" ? "Berhasil" : "Success"}`,
