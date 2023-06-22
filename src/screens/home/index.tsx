@@ -10,10 +10,8 @@ import { palette } from "../../utils/colors/colors";
 import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
 import TodoList from "../../components/TodoList";
-
 import Input from "../../components/Input";
 import ModalPopup from "../../components/ModalPopup";
-import { useAuthStore } from "../../utils/zustand/authStore";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -39,6 +37,8 @@ const Home = () => {
       },
     ];
     setTodos((prevTodos) => [...prevTodos, ...newTodo]);
+    const id = newTodo.map((item) => { item?.id })
+    const title = newTodo.map((item) => { item?.title })
     setIsOpen(false);
   };
 
