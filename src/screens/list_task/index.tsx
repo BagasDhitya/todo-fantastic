@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useLanguageStore } from "../../utils/zustand/languageStore";
 import { palette } from '../../utils/colors/colors';
+import { SweetAlert } from '../../utils/services/alert';
 
 import Navbar from '../../components/Navbar';
 
@@ -12,6 +14,9 @@ const { width, height } = Dimensions.get("screen")
 const ListTask = () => {
 
     const currentDate = new Date();
+    const { language } = useLanguageStore()
+    const [task, setTasks] = useState<any | []>([])
+
     const dates = Array.from({ length: 30 }, (_, index) => {
         const newDate = new Date();
         newDate.setDate(currentDate.getDate() + index);
@@ -24,21 +29,28 @@ const ListTask = () => {
         </View>
     );
 
-    const tasks = [
-        { id: 1, title: 'Task 1' },
-        { id: 2, title: 'Task 2' },
-        { id: 3, title: 'Task 3' },
-    ];
-
     const getTask = async () => {
-        const data = await AsyncStorage.getItem("todos")
-        console.log(data)
-    }
+        try {
+            const data: string | null = await AsyncStorage.getItem("todos");
+            if (data) {
+                const tasksArray = JSON.parse(data);
+                setTasks(tasksArray);
+            }
+        } catch (error) {
+            SweetAlert({
+                title: `${language === "Indonesia" ? "Gagal" : "Failed"}`,
+                message: `${language === "Indonesia"
+                    ? "Terjadi kesalahan, tutup aplikasi kemudian buka kembali!"
+                    : "Something went wrong, close your app and then open again!"
+                    }`,
+                confirmText: "OK",
+            });
+        }
+    };
 
     useEffect(() => {
         getTask()
     }, [])
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -52,7 +64,7 @@ const ListTask = () => {
                         keyExtractor={(index) => index.toString()}
                     />
                     <View style={styles.tasksContainer}>
-                        {tasks.map((task) => (
+                        {task.map((task: any) => (
                             <View key={task.id} style={styles.taskItem}>
                                 <Text style={styles.taskTitle}>{task.title}</Text>
                             </View>
