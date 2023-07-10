@@ -18,7 +18,7 @@ export interface ModalProps {
     id: string,
     visible: boolean;
     onClose: () => void;
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 export interface SweetAlertProps {
