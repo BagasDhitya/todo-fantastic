@@ -7,6 +7,7 @@ import { getNotifications } from "../../utils/services/pushNotification";
 import { useLanguageStore } from "../../utils/zustand/languageStore";
 import { TodoState } from "../../utils/types/todo";
 import { palette } from "../../utils/colors/colors";
+import { SweetAlert } from "../../utils/services/alert";
 
 import Navbar from "../../components/Navbar";
 import Button from "../../components/Button";
@@ -31,18 +32,32 @@ const Home = () => {
     AsyncStorage.removeItem("todos")
   };
 
-  const handleAddTodo = () => {
-    const newTodo: TodoState[] = [
-      {
-        id: Date.now(),
-        title: item,
-      },
-    ];
-    setTodos((prevTodos) => [...prevTodos, ...newTodo]);
-    const value = JSON.stringify(todos)
-    AsyncStorage.setItem("todos", value)
-    setIsOpen(false);
+  const handleAddTodo = async () => {
+
+    const newTodo: TodoState = {
+      id: Date.now(),
+      title: item,
+    };
+
+    try {
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
+      const value = JSON.stringify([...todos, newTodo]);
+      await AsyncStorage.setItem("todos", value);
+      console.log(value)
+      setIsOpen(false);
+    } catch (error) {
+      SweetAlert({
+        title: `${language === "Indonesia" ? "Gagal" : "Failed"
+          }`,
+        message: `${language === "Indonesia"
+          ? "Terjadi kesalahan, tutup aplikasi kemudian buka kembali!"
+          : "Something went wrong, close your app and then open again!"
+          }`,
+        confirmText: "OK",
+      });
+    }
   };
+
 
   const createTodo = () => {
     setIsOpen(true);
@@ -66,7 +81,7 @@ const Home = () => {
       {todos ? (
         <View
           style={{
-            marginTop: height * 0.05,
+            marginTop: height * 0.1,
             marginBottom: height * 0.15,
             justifyContent: "center",
           }}
